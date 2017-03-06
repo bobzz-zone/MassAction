@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include massaction *.css
+recursive-include massaction *.csv
+recursive-include massaction *.html
+recursive-include massaction *.ico
+recursive-include massaction *.js
+recursive-include massaction *.json
+recursive-include massaction *.md
+recursive-include massaction *.png
+recursive-include massaction *.py
+recursive-include massaction *.svg
+recursive-include massaction *.txt
+recursive-exclude massaction *.pyc
