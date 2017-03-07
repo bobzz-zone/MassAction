@@ -35,7 +35,7 @@ class QuotationToOrder(Document):
 		where =""
 		if self.select_item:
 			where = """ and item_code ="{}" """.format(self.select_item)
-		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(so_list,where),as_list=1)
+		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name, warehouse from `tabQuotation Item` where parent IN ({}) {}".format(so_list,where),as_list=1)
 		self.set("items", [])
 		for r in items:
 			pp_so = self.append('items', {})
@@ -45,6 +45,7 @@ class QuotationToOrder(Document):
 			pp_so.rate = r[3]
 			pp_so.total = r[4]
 			pp_so.quotation_item = r[5]
+			pp_so.warehouse = r[6]
 	def create_order(self):
 		so = frappe.new_doc("Sales Order")
 		so.update({
@@ -57,6 +58,7 @@ class QuotationToOrder(Document):
 				"item_code": data.item,
 				"qty": data.qty,
 				"rate": data.rate,
+				"warehouse":data.warehouse,
 				"amount": data.total,
 				"prevdoc_docname": data.quotation,
 			})
@@ -64,5 +66,5 @@ class QuotationToOrder(Document):
 		so.calculate_taxes_and_totals()
 		so.insert()
 		so.save()
-		
+
 		return so
