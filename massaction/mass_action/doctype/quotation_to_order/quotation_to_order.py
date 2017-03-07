@@ -5,6 +5,8 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+import frappe.utils
+from frappe.utils import cstr, flt, getdate, comma_and, cint,nowdate
 
 class QuotationToOrder(Document):
 	def get_quotations(self):
@@ -40,4 +42,18 @@ class QuotationToOrder(Document):
 			pp_so.total = r[4]
 			pp_so.quotation_item = r[5]
 	def create_order(self):
-		
+		so = frappe.new_doc("Sales Order")
+		so.update({
+			"Customer":self.customer,
+			"transaction_date":nowdate(),
+			"delivery_date":nowdate()
+			})
+		for data in self.items:
+			so.append("items",{
+				"item_code": data.item,
+				"qty": data.qty,
+				"rate": data.rate,
+				"amount": data.total,
+				"prevdoc_docname": data.quotation,
+			})
+		return so
