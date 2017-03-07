@@ -31,7 +31,7 @@ class QuotationToOrder(Document):
 			else:
 				so_list= """ {} , "{}" """.format(so_list,x.quotation)
 		if so_list=="":
-			msgprint(_("Please enter Quotation in the above table"))
+			frappe.msgprint(_("Please enter Quotation in the above table"))
 		where =""
 		if self.select_item:
 			where = """ and item_code ="{}" """.format(self.select_item)
@@ -65,5 +65,5 @@ class QuotationToOrder(Document):
 		so.set_missing_values()
 		so.calculate_taxes_and_totals()
 		so.insert()
-
-		return so
+		frappe.msgprint("Sales Order {} Created".format(so.name))
+		
