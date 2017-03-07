@@ -49,7 +49,7 @@ class QuotationToOrder(Document):
 	def create_order(self):
 		so = frappe.new_doc("Sales Order")
 		so.update({
-			"Customer":self.customer,
+			"customer":self.customer,
 			"transaction_date":nowdate(),
 			"delivery_date":nowdate()
 			})
@@ -65,6 +65,5 @@ class QuotationToOrder(Document):
 		so.set_missing_values()
 		so.calculate_taxes_and_totals()
 		so.insert()
-		so.save()
 
 		return so
