@@ -56,4 +56,5 @@ class QuotationToOrder(Document):
 				"amount": data.total,
 				"prevdoc_docname": data.quotation,
 			})
+		so.set_missing_values()
 		return so
