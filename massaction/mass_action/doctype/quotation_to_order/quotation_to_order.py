@@ -24,14 +24,18 @@ class QuotationToOrder(Document):
 			pp_so.total = r[2]
 
 	def get_items(self):
-		so_list = [d.quotation for d in self.get('quotation_list') if d.quotation]
-		if not so_list:
+		so_list =""
+		for x in self.quotation_list:
+			if so_list=="":
+				so_list= """ "{}" """.format(x.quotation)
+			else:
+				so_list= """ {} , "{}" """.format(so_list,x.quotation)
+		if so_list=="":
 			msgprint(_("Please enter Quotation in the above table"))
 		where =""
-		
 		if self.select_item:
 			where = """ and item_code ="{}" """.format(self.select_item)
-		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(tuple(so_list),where),as_list=1)
+		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(so_list,where),as_list=1)
 		self.set("items", [])
 		for r in quotations:
 			pp_so = self.append('items', {})
