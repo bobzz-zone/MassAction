@@ -61,4 +61,8 @@ class QuotationToOrder(Document):
 				"prevdoc_docname": data.quotation,
 			})
 		so.set_missing_values()
+		so.calculate_taxes_and_totals()
+		so.insert()
+		so.save()
+		
 		return so
