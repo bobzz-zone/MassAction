@@ -31,7 +31,7 @@ class QuotationToOrder(Document):
 		
 		if self.select_item:
 			where = """ and item_code ="{}" """.format(self.select_item)
-		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(tuple(so_list,where)),as_list=1)
+		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(tuple(so_list),where),as_list=1)
 		self.set("items", [])
 		for r in quotations:
 			pp_so = self.append('items', {})
