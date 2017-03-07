@@ -10,7 +10,7 @@ from frappe.utils import cstr, flt, getdate, comma_and, cint,nowdate
 
 class QuotationToOrder(Document):
 	def get_quotations(self):
-		where = """ docstatus=1 and status = "Open" and customer = "{}" """.format(self.customer)
+		where = """ docstatus=1 and customer = "{}" """.format(self.customer)
 		if self.from_date :
 			where = """{} and transaction_date > "{}" """.format(where,self.from_date)
 		if self.to_date :
@@ -25,7 +25,7 @@ class QuotationToOrder(Document):
 
 	def get_items(self):
 		so_list = [d.quotation for d in self.get('quotation_list') if d.quotation]
-		if not qo_list:
+		if not so_list:
 			msgprint(_("Please enter Quotation in the above table"))
 		where =""
 		
