@@ -37,7 +37,7 @@ class QuotationToOrder(Document):
 			where = """ and item_code ="{}" """.format(self.select_item)
 		items = frappe.db.sql("select item_code , parent, qty,rate,amount,name from `tabQuotation Item` where parent IN ({}) {}".format(so_list,where),as_list=1)
 		self.set("items", [])
-		for r in quotations:
+		for r in items:
 			pp_so = self.append('items', {})
 			pp_so.item = r[0]
 			pp_so.quotation = r[1]
