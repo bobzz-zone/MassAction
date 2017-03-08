@@ -15,6 +15,10 @@ class QuotationToOrder(Document):
 			where = """{} and transaction_date > "{}" """.format(where,self.from_date)
 		if self.to_date :
 			where = """{} and transaction_date < "{}" """.format(where,self.to_date)
+		if self.territory :
+			where = """{} and territory = "{}" """.format(where,self.territory)
+		if self.status :
+			where = """{} and status = "{}" """.format(where,self.status)
 		quotations=frappe.db.sql("select name, transaction_date,grand_total from tabQuotation where {}".format(where),as_list=1)
 		self.set("quotation_list", [])
 		for r in quotations:
