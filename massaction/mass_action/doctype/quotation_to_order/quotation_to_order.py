@@ -11,10 +11,10 @@ from frappe.utils import cstr, flt, getdate, comma_and, cint,nowdate
 class QuotationToOrder(Document):
 	def get_quotation(self):
 		where = """ docstatus=1 and customer = "{}" """.format(self.customer)
-		if self.from_date :
-			where = """{} and transaction_date > "{}" """.format(where,self.from_date)
-		if self.to_date :
-			where = """{} and transaction_date < "{}" """.format(where,self.to_date)
+		if self.from :
+			where = """{} and transaction_date > "{}" """.format(where,self.from)
+		if self.to :
+			where = """{} and transaction_date < "{}" """.format(where,self.to)
 		quotations=frappe.db.sql("select name, transaction_date,grand_total from tabQuotation where {}".format(where),as_list=1)
 		self.set("quotation_list", [])
 		for r in quotations:
